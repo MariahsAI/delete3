@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mariah Fusion — Background</title>
+<style>
+  /* ============================================
+     MARIAH FUSION — CINEMATIC DASHBOARD BACKGROUND
+     Color palette: MX1 Blue → Teal → Green
+     ============================================
+     Usage: Place the .fusion-bg container as the
+     first child of your app wrapper. Dashboard
+     content sits on top with z-index: 10+
+     ============================================ */
+
+  :root {
+    /* ── MX1 Core Gradient Palette ────────────── */
+    --mx-deep-blue:    #1a2870;
+    --mx-royal-blue:   #3050a0;
+    --mx-bright-blue:  #30b0e0;
+    --mx-azure:        #30a0d0;
+    --mx-teal:         #30b0b0;
+    --mx-sea-green:    #20a080;
+    --mx-emerald:      #20b080;
+    --mx-bright-green: #28d88c;
+
+    /* ── Dashboard Surface Colors ─────────────── */
+    --fusion-deep:     #060c1a;
+    --fusion-dark:     #0a1020;
+    --fusion-panel:    #0e1630;
+    --fusion-text:     #d8e4f0;
+    --fusion-muted:    #4a6080;
+
+    /* ── Accent (keep magenta for alerts/errors) ─ */
+    --fusion-alert:    #ff2d78;
+    --fusion-success:  #28d88c;
+  }
+
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--fusion-deep);
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--fusion-text);
+  }
+
+  /* ── Background Container ───────────────────── */
+  .fusion-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  /* ── Video Layer ────────────────────────────── */
+  .fusion-bg__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+    /* Color grading is baked into the video file */
+  }
+
+  .fusion-bg__video.loaded {
+    opacity: 1;
+  }
+
+  /* ── Static Fallback ────────────────────────── */
+  .fusion-bg__fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    transition: opacity 1.4s ease;
+    /* Color grading is baked into the image file */
+  }
+
+  .fusion-bg__video.loaded ~ .fusion-bg__fallback {
+    opacity: 0;
+  }
+
+  /* ── Dark Overlay ───────────────────────────── */
+  .fusion-bg__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      /* Deep vignette */
+      radial-gradient(ellipse at center, transparent 25%, rgba(6, 12, 26, 0.75) 100%),
+      /* Base tint for color unity */
+      linear-gradient(180deg,
+        rgba(6, 12, 26, 0.50) 0%,
+        rgba(10, 16, 32, 0.35) 40%,
+        rgba(6, 12, 26, 0.55) 100%
+      );
+  }
+
+  /* ── Blue Glow — Top Left ───────────────────── */
+  .fusion-bg__glow-1 {
+    position: absolute;
+    top: -18%;
+    left: -12%;
+    width: 65vw;
+    height: 65vh;
+    background: radial-gradient(circle,
+      rgba(48, 176, 224, 0.10) 0%,
+      rgba(48, 80, 160, 0.04) 50%,
+      transparent 70%
+    );
+    z-index: 2;
+    animation: glow-drift-1 14s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  /* ── Emerald Glow — Bottom Right ────────────── */
+  .fusion-bg__glow-2 {
+    position: absolute;
+    bottom: -22%;
+    right: -12%;
+    width: 60vw;
+    height: 60vh;
+    background: radial-gradient(circle,
+      rgba(32, 176, 128, 0.09) 0%,
+      rgba(32, 160, 128, 0.03) 50%,
+      transparent 70%
+    );
+    z-index: 2;
+    animation: glow-drift-2 16s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  /* ── Teal Glow — Center ─────────────────────── */
+  .fusion-bg__glow-3 {
+    position: absolute;
+    top: 35%;
+    left: 45%;
+    width: 45vw;
+    height: 45vh;
+    background: radial-gradient(circle,
+      rgba(48, 176, 176, 0.06) 0%,
+      transparent 65%
+    );
+    z-index: 2;
+    animation: glow-drift-3 20s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  /* ── Deep Blue Accent — Top Right ───────────── */
+  .fusion-bg__glow-4 {
+    position: absolute;
+    top: -10%;
+    right: 15%;
+    width: 35vw;
+    height: 35vh;
+    background: radial-gradient(circle,
+      rgba(26, 40, 112, 0.12) 0%,
+      transparent 60%
+    );
+    z-index: 2;
+    animation: glow-drift-4 18s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  /* ── Scan Lines ─────────────────────────────── */
+  .fusion-bg__scanlines {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.025) 2px,
+      rgba(0, 0, 0, 0.025) 4px
+    );
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  /* ── Noise / Grain ──────────────────────────── */
+  .fusion-bg__noise {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    opacity: 0.022;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+  }
+
+  /* ── Grid (blue-teal tint) ──────────────────── */
+  .fusion-bg__grid {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0.025;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(48, 176, 224, 0.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(48, 176, 224, 0.35) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 50% 50%, black 15%, transparent 65%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 15%, transparent 65%);
+  }
+
+  /* ── Horizontal Scan Beam (blue→green) ──────── */
+  .fusion-bg__beam {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(48, 80, 160, 0.2) 15%,
+      rgba(48, 176, 224, 0.45) 40%,
+      rgba(48, 176, 176, 0.45) 60%,
+      rgba(32, 176, 128, 0.2) 85%,
+      transparent 100%
+    );
+    box-shadow:
+      0 0 20px rgba(48, 176, 224, 0.2),
+      0 0 60px rgba(32, 176, 128, 0.1);
+    animation: scan-beam 9s linear infinite;
+  }
+
+  /* ── Edge Glow — Top (blue) ─────────────────── */
+  .fusion-bg__edge-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(48, 80, 160, 0.3) 25%,
+      rgba(48, 176, 224, 0.55) 50%,
+      rgba(48, 80, 160, 0.3) 75%,
+      transparent 100%
+    );
+    box-shadow: 0 0 12px rgba(48, 176, 224, 0.25);
+  }
+
+  /* ── Edge Glow — Bottom (green) ─────────────── */
+  .fusion-bg__edge-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(32, 160, 128, 0.25) 25%,
+      rgba(32, 176, 128, 0.5) 50%,
+      rgba(32, 160, 128, 0.25) 75%,
+      transparent 100%
+    );
+    box-shadow: 0 0 12px rgba(32, 176, 128, 0.2);
+  }
+
+  /* ── Floating Particles ─────────────────────── */
+  .fusion-bg__particles {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    opacity: 0;
+    animation: particle-float linear infinite;
+  }
+
+  /* Blue spectrum particles */
+  .particle:nth-child(1)  { left:  5%; background: var(--mx-bright-blue); animation-duration: 18s; animation-delay: 0s;   }
+  .particle:nth-child(2)  { left: 12%; background: var(--mx-emerald);     animation-duration: 22s; animation-delay: 2s;   }
+  .particle:nth-child(3)  { left: 22%; background: var(--mx-azure);       animation-duration: 16s; animation-delay: 4s;   width: 3px; height: 3px; }
+  .particle:nth-child(4)  { left: 33%; background: var(--mx-teal);        animation-duration: 20s; animation-delay: 1s;   }
+  .particle:nth-child(5)  { left: 42%; background: var(--mx-bright-green);animation-duration: 24s; animation-delay: 6s;   }
+  .particle:nth-child(6)  { left: 54%; background: var(--mx-bright-blue); animation-duration: 15s; animation-delay: 3s;   width: 3px; height: 3px; }
+  .particle:nth-child(7)  { left: 63%; background: var(--mx-sea-green);   animation-duration: 19s; animation-delay: 5s;   }
+  .particle:nth-child(8)  { left: 74%; background: var(--mx-royal-blue);  animation-duration: 21s; animation-delay: 7s;   }
+  .particle:nth-child(9)  { left: 83%; background: var(--mx-teal);        animation-duration: 17s; animation-delay: 2.5s; }
+  .particle:nth-child(10) { left: 92%; background: var(--mx-emerald);     animation-duration: 23s; animation-delay: 8s;   width: 3px; height: 3px; }
+  .particle:nth-child(11) { left: 28%; background: var(--mx-azure);       animation-duration: 25s; animation-delay: 9s;   }
+  .particle:nth-child(12) { left: 68%; background: var(--mx-bright-green);animation-duration: 14s; animation-delay: 4.5s; width: 2px; height: 2px; }
+
+  /* ── Ambient Light Flicker ──────────────────── */
+  .fusion-bg__ambient {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+      135deg,
+      rgba(48, 80, 160, 0.03) 0%,
+      transparent 40%,
+      rgba(32, 176, 128, 0.02) 70%,
+      transparent 100%
+    );
+    animation: ambient-shift 25s ease-in-out infinite alternate;
+  }
+
+  /* ── Animations ─────────────────────────────── */
+  @keyframes glow-drift-1 {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(6vw, 4vh) scale(1.12); }
+  }
+  @keyframes glow-drift-2 {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-5vw, -6vh) scale(1.15); }
+  }
+  @keyframes glow-drift-3 {
+    0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+    50%  { opacity: 0.4; }
+    100% { transform: translate(4vw, -3vh) scale(0.85); opacity: 1; }
+  }
+  @keyframes glow-drift-4 {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-3vw, 5vh) scale(1.08); }
+  }
+
+  @keyframes scan-beam {
+    0%   { top: -2px; opacity: 0; }
+    5%   { opacity: 1; }
+    95%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  @keyframes particle-float {
+    0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+    10%  { opacity: 0.5; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  @keyframes ambient-shift {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.3; }
+    100% { opacity: 0.8; }
+  }
+
+  /* ── DEMO: Content Layer ────────────────────── */
+  .demo-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .demo-content__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 22px;
+    border: 1px solid rgba(48, 176, 224, 0.25);
+    border-radius: 100px;
+    background: rgba(48, 176, 224, 0.06);
+    backdrop-filter: blur(14px);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mx-bright-blue);
+    animation: fadeInUp 0.8s ease both;
+  }
+
+  .demo-content__badge::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--mx-bright-green);
+    box-shadow: 0 0 8px var(--mx-bright-green);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  .demo-content__title {
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    background: linear-gradient(
+      135deg,
+      var(--mx-royal-blue) 0%,
+      var(--mx-bright-blue) 25%,
+      var(--mx-teal) 50%,
+      var(--mx-sea-green) 75%,
+      var(--mx-bright-green) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(48, 176, 176, 0.3));
+    animation: fadeInUp 0.8s ease 0.15s both;
+  }
+
+  .demo-content__sub {
+    font-size: 15px;
+    color: var(--fusion-muted);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    animation: fadeInUp 0.8s ease 0.3s both;
+  }
+
+  /* ── Color Swatch Preview ───────────────────── */
+  .demo-swatches {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    animation: fadeInUp 0.8s ease 0.45s both;
+  }
+
+  .demo-swatches__dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .demo-swatches__dot:hover {
+    transform: scale(1.3);
+  }
+
+  .demo-swatches__dot:nth-child(1) { background: var(--mx-deep-blue);    box-shadow: 0 0 12px rgba(26, 40, 112, 0.5);  }
+  .demo-swatches__dot:nth-child(2) { background: var(--mx-royal-blue);   box-shadow: 0 0 12px rgba(48, 80, 160, 0.5);  }
+  .demo-swatches__dot:nth-child(3) { background: var(--mx-bright-blue);  box-shadow: 0 0 12px rgba(48, 176, 224, 0.5); }
+  .demo-swatches__dot:nth-child(4) { background: var(--mx-azure);        box-shadow: 0 0 12px rgba(48, 160, 208, 0.5); }
+  .demo-swatches__dot:nth-child(5) { background: var(--mx-teal);         box-shadow: 0 0 12px rgba(48, 176, 176, 0.5); }
+  .demo-swatches__dot:nth-child(6) { background: var(--mx-sea-green);    box-shadow: 0 0 12px rgba(32, 160, 128, 0.5); }
+  .demo-swatches__dot:nth-child(7) { background: var(--mx-emerald);      box-shadow: 0 0 12px rgba(32, 176, 128, 0.5); }
+  .demo-swatches__dot:nth-child(8) { background: var(--mx-bright-green); box-shadow: 0 0 12px rgba(40, 216, 140, 0.5); }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 8px var(--mx-bright-green); }
+    50%      { box-shadow: 0 0 18px var(--mx-bright-green), 0 0 35px rgba(40, 216, 140, 0.3); }
+  }
+
+  /* ── Reduced Motion ─────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .fusion-bg__video { display: none; }
+    .fusion-bg__fallback { opacity: 1 !important; }
+    .fusion-bg__beam, .particle,
+    .fusion-bg__glow-1, .fusion-bg__glow-2,
+    .fusion-bg__glow-3, .fusion-bg__glow-4,
+    .fusion-bg__ambient {
+      animation: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       FUSION BACKGROUND — MX1 Color Edition
+       Drop this block into your app
+       ═══════════════════════════════════════════ -->
+  <div class="fusion-bg">
+    <!-- Video loop -->
+    <video
+      class="fusion-bg__video"
+      autoplay muted loop playsinline preload="auto"
+      id="bgVideo"
+    >
+      <source src="fusion-bg-mx1.mp4" type="video/mp4">
+    </video>
+
+    <!-- Static fallback -->
+    <img class="fusion-bg__fallback" src="fallback-frame-mx1.jpg" alt="" loading="eager" />
+
+    <!-- Atmospheric layers -->
+    <div class="fusion-bg__overlay"></div>
+    <div class="fusion-bg__glow-1"></div>
+    <div class="fusion-bg__glow-2"></div>
+    <div class="fusion-bg__glow-3"></div>
+    <div class="fusion-bg__glow-4"></div>
+    <div class="fusion-bg__ambient"></div>
+    <div class="fusion-bg__grid"></div>
+    <div class="fusion-bg__scanlines"></div>
+    <div class="fusion-bg__noise"></div>
+    <div class="fusion-bg__beam"></div>
+
+    <!-- Particles -->
+    <div class="fusion-bg__particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <!-- Edge accents -->
+    <div class="fusion-bg__edge-top"></div>
+    <div class="fusion-bg__edge-bottom"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       DEMO CONTENT — Replace with your dashboard
+       ═══════════════════════════════════════════ -->
+  <div class="demo-content">
+    <div class="demo-content__badge">Fusion Online</div>
+    <h1 class="demo-content__title">MARIAH</h1>
+    <p class="demo-content__sub">Autonomous Trading Engine</p>
+
+    <!-- Palette preview -->
+    <div class="demo-swatches">
+      <div class="demo-swatches__dot"></div>
+      <div class="demo-swatches__dot"></div>
+      <div class="demo-swatches__dot"></div>
+      <div class="demo-swatches__dot"></div>
+      <div class="demo-swatches__dot"></div>
+      <div class="demo-swatches__dot"></div>
+      <div class="demo-swatches__dot"></div>
+      <div class="demo-swatches__dot"></div>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById('bgVideo');
+    if (video) {
+      video.addEventListener('canplaythrough', () => video.classList.add('loaded'));
+      if (video.readyState >= 4) video.classList.add('loaded');
+      setTimeout(() => video.classList.add('loaded'), 3000);
+    }
+  </script>
+
+</body>
+</html>
