@@ -401,22 +401,10 @@
     animation: pulse-dot 2s ease-in-out infinite;
   }
 
-  .demo-content__title {
-    font-size: clamp(36px, 6vw, 72px);
-    font-weight: 800;
-    letter-spacing: -2px;
-    background: linear-gradient(
-      135deg,
-      var(--mx-royal-blue) 0%,
-      var(--mx-bright-blue) 25%,
-      var(--mx-teal) 50%,
-      var(--mx-sea-green) 75%,
-      var(--mx-bright-green) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 0 30px rgba(48, 176, 176, 0.3));
+  .demo-content__logo {
+    width: clamp(200px, 30vw, 420px);
+    height: auto;
+    filter: drop-shadow(0 0 30px rgba(48, 176, 176, 0.35)) drop-shadow(0 0 60px rgba(48, 80, 160, 0.2));
     animation: fadeInUp 0.8s ease 0.15s both;
   }
 
@@ -537,7 +525,7 @@
        ═══════════════════════════════════════════ -->
   <div class="demo-content">
     <div class="demo-content__badge">Fusion Online</div>
-    <h1 class="demo-content__title">MARIAH</h1>
+    <img class="demo-content__logo" src="mx1-logo-hq.png" alt="MX1" />
     <p class="demo-content__sub">Autonomous Trading Engine</p>
 
     <!-- Palette preview -->
